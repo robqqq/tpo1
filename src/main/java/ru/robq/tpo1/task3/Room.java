@@ -1,6 +1,7 @@
 package ru.robq.tpo1.task3;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,6 +27,18 @@ public class Room {
         currentDisaster = Disaster.QUIETLY;
     }
 
+    public float getNoiseLevel() {
+        return noiseLevel;
+    }
+
+    public float getTemperature() {
+        return temperature;
+    }
+
+    public Disaster getCurrentDisaster() {
+        return currentDisaster;
+    }
+
     public String increaseTemperature(float delta) {
         if (delta < 0) {
             return "Delta must be positive";
@@ -45,5 +58,63 @@ public class Room {
             temperature -= delta;
         }
         return "Temperature decrease by " + delta + " deegres, now temperature is " + temperature;
+    }
+
+    public String increaseNoise(float delta) {
+        if (delta < 0) {
+            return "Delta must be positive";
+        }
+        if (noiseLevel + delta > MAX_NOISE_LEVEL) {
+            delta = MAX_NOISE_LEVEL - noiseLevel;
+            noiseLevel = MAX_NOISE_LEVEL;
+        } else {
+            noiseLevel += delta;
+        }
+        return "Noise level increase by " + delta + ", now noise level is " + noiseLevel;
+    }
+
+    public String decreaseNoise(float delta) {
+        if (delta < 0) {
+            return "Delta must be positive";
+        }
+        if (noiseLevel - delta < MIN_NOISE_LEVEL) {
+            delta = noiseLevel - MIN_NOISE_LEVEL;
+            noiseLevel = MIN_NOISE_LEVEL;
+        } else {
+            noiseLevel -= delta;
+        }
+        return "Noise level decrease by " + delta + ", now noise level is " + noiseLevel;
+    }
+
+    public String setCurrentDisaster(Disaster disaster) {
+        currentDisaster = disaster;
+        return disaster.getDescr() + " started.";
+    }
+
+    public String clearDisaster() {
+        currentDisaster = Disaster.QUIETLY;
+        return "Disaster ended. Now is quietly.";
+    }
+
+    public String putPerson(Location location, Person person) {
+        if (persons.containsKey(location)) {
+            persons.get(location).add(person);
+        } else {
+            Set<Person> personsSet = new HashSet<>();
+            personsSet.add(person);
+            persons.put(location, personsSet);
+        }
+        return person.getName() + " located at " + location.getDescr() + " now.";
+    }
+
+    public String putWorldObject(Location location, WorldObject worldObject) {
+        if (objects.containsKey(location)) {
+            objects.get(location).add(worldObject);
+        } else {
+            Set<WorldObject> objectsSet = new HashSet<>();
+            objectsSet.add(worldObject);
+            objects.put(location, objectsSet);
+        }
+        return worldObject.getName() + " located at " + location.getDescr() + " now.";
     }
 }

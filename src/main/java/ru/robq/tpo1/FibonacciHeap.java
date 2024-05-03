@@ -134,7 +134,6 @@ public class FibonacciHeap {
      * <p><em>Running time: O(1)</em></p>
      *
      * @param  x    data object to insert into heap.
-     * @param  key  key value associated with data object.
      * @return newly created heap node.
      */
     public Node insert(int x) {
@@ -262,7 +261,6 @@ public class FibonacciHeap {
          * making this a circular doubly-linked list.
          *
          * @param  data  data object to associate with this node
-         * @param  key   key value for this data object
          */
         public Node(int data) {
             this.data = data;
